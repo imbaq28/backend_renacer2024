@@ -3,5 +3,40 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "pepe sossa",
-  "license": "MIT"
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "db": "npm run setup && npm run seeders",
+    "start": "node src/application/server",
+    "start:dev": "nodemon src/application/server",
+    "secure": "NODE_ENV=secure nodemon src/application/server",
+    "test": "NODE_ENV=test npm run setup && NODE_ENV=test npm run seeders && npm run test-db && npm run test-domain",
+    "test-db": "NODE_ENV=test ava src/infrastructure/tests/ --verbose",
+    "test-domain": "NODE_ENV=test ava src/domain/tests/ --verbose",
+    "test-common": "NODE_ENV=test ava src/common/tests/ --verbose",
+    "setup": "node src/infrastructure/setup.js",
+    "seeders": "sequelize db:seed:all --debug  --seeders-path src/infrastructure/seeders --config src/infrastructure/lib/config-seeders.js",
+    "seeders-update": "NODE_ENV=production sequelize db:seed:all --seeders-path src/infrastructure/seeders/update --config src/lib/config-seeders.js",
+    "seeders-prod": "NODE_ENV=production npm run seeders"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.0",
+    "nodemailer": "^6.9.13",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "pg": "^8.11.5",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.2",
+    "sequelize-cli": "^6.6.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
 }
