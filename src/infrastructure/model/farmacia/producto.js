@@ -3,10 +3,10 @@ import { pk, setTimestamps } from "../../lib/util.js";
 const model = (sequelize, DataTypes) => {
   let fields = {
     id: pk,
-    categoriaId: {
+    idCategoria: {
       type: DataTypes.UUID,
       allowNull: false,
-      field: "categoria_id",
+      field: "id_categoria",
     },
     descripcion: {
       type: DataTypes.STRING(300),
@@ -34,17 +34,17 @@ const model = (sequelize, DataTypes) => {
     },
     precioCompra: {
       type: DataTypes.FLOAT,
-      field: "precio_venta",
+      field: "precio_compra",
     },
-    presentacionId: {
+    idPresentacion: {
       type: DataTypes.UUID,
       allowNull: false,
-      field: "presentacion_id",
+      field: "id_presentacion",
     },
-    proveedorId: {
+    idProveedor: {
       type: DataTypes.UUID,
       allowNull: false,
-      field: "proveedor_id",
+      field: "id_proveedor",
     },
     precioVenta: {
       type: DataTypes.FLOAT,

@@ -3,10 +3,10 @@ import { pk, setTimestamps } from "../../lib/util.js";
 const model = (sequelize, DataTypes) => {
   let fields = {
     id: pk,
-    clienteId: {
+    idCliente: {
       type: DataTypes.UUID,
       allowNull: false,
-      field: "cliente_id",
+      field: "id_cliente",
     },
     fechaPedido: {
       type: DataTypes.DATEONLY,

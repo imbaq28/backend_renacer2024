@@ -46,6 +46,52 @@ async function loadModels(PATH, sequelize, opts = {}) {
   return models;
 }
 
+async function loadRepositories(PATH, models, Sequelize, opts = {}) {
+  const files = await fs.readdir(PATH);
+  const repositories = {};
+
+  if (opts.exclude) {
+    removeAll(opts.exclude, files);
+  }
+
+  // para excluir tambien expresiones regulares
+  if (opts.excludeRegex) {
+    const excluir = [];
+    opts.excludeRegex.map((re) => {
+      const regExp = new RegExp(re);
+      files.map((file) => {
+        if (regExp.test(file)) {
+          excluir.push(file);
+        }
+      });
+    });
+    if (excluir.length > 0) {
+      removeAll(excluir, files);
+    }
+  }
+
+  for (const file of files) {
+    const pathFile = path.join(PATH, file);
+    const stats = await fs.stat(pathFile);
+
+    if (stats.isDirectory()) {
+      repositories[file] = await loadRepositories(
+        pathFile,
+        models,
+        Sequelize,
+        opts
+      );
+    } else {
+      const modelName = file.replace(".js", "");
+      const { default: modelModule } = await import(pathToFileURL(pathFile));
+
+      repositories[modelName] = modelModule(models, Sequelize);
+    }
+  }
+
+  return repositories;
+}
+
 const pk = {
   primaryKey: true,
   type: Sequelize.UUID,
@@ -184,12 +230,51 @@ function toJSON(result) {
   };
 }
 
+function errorHandler(error) {
+  if (error.errors) {
+    const err = error.errors;
+    const oError = {};
+    for (const i in err) {
+      const key = err[i].path;
+      const type = err[i].type;
+      const value = err[i].value;
+      let message = "";
+
+      if (["unique violation"].indexOf(type) !== -1) {
+        if (type === "unique violation") {
+          message = `"${value}" ${lang.t("errors.validation.unique")}`;
+        } else {
+          message = `${type}:${err[i].message}`;
+        }
+
+        if (oError[key]) {
+          oError[key].err.push(message);
+        } else {
+          oError[key] = {
+            errors: [message],
+          };
+        }
+        oError[key].label = lang.t(`fields.${key}`);
+      } else {
+        console.log("Error de Validación desconocida");
+        throw new Error(error.message);
+      }
+    }
+    if (Object.keys(oError).length) {
+      throw new Error(getText(oError));
+    }
+  }
+  throw error;
+}
+
 export {
   loadModels,
+  loadRepositories,
   pk,
   setTimestamps,
   setTimestampsSeeder,
   convertLinealObject,
   getQuery,
   toJSON,
+  errorHandler,
 };
