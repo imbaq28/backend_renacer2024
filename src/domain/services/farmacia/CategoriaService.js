@@ -11,7 +11,6 @@ console.log("categoria", Categoria);
 
 async function crearCategoria(data) {
   try {
-    console.log(data);
     const cat = await Categoria.create(data);
     // return UsuarioRepository.deleteItem(id);db, config);
     return cat;
@@ -43,6 +42,7 @@ async function buscarCategoria(id) {
 
 async function modificarCategoria(datos) {
   try {
+    console.log(datos);
     const { nombre, detalle, estado } = datos;
     const cat = await Categoria.update(
       { nombre: nombre, detalle: detalle, estado: estado },
