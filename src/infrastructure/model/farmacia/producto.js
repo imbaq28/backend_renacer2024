@@ -3,6 +3,11 @@ import { pk, setTimestamps } from "../../lib/util.js";
 const model = (sequelize, DataTypes) => {
   let fields = {
     id: pk,
+    idNombre: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      field: "id_nombre",
+    },
     idCategoria: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -19,10 +24,6 @@ const model = (sequelize, DataTypes) => {
     imagen: {
       type: DataTypes.STRING(300),
       field: "imagen",
-    },
-    nombre: {
-      type: DataTypes.STRING(100),
-      field: "nombre",
     },
     lote: {
       type: DataTypes.STRING(300),
@@ -61,6 +62,7 @@ const model = (sequelize, DataTypes) => {
     estado: {
       type: DataTypes.ENUM,
       values: ["ACTIVO", "INACTIVO"],
+      defaultValue: "ACTIVO",
       field: "estado",
     },
   };

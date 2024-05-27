@@ -12,6 +12,7 @@ async function crear(req, res) {
   try {
     const data = req.body;
     // data.userCreated = req.user.idUsuario;
+    delete data.id;
     const respuesta = await crearProveedor(data);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {

@@ -10,6 +10,7 @@ const associations = (models) => {
     presentacion,
     pedidos,
     pedidoProducto,
+    nombreProducto,
   } = models;
 
   rol.belongsTo(usuario, { foreignKey: { name: "idRol" }, as: "usuario" });
@@ -26,31 +27,35 @@ const associations = (models) => {
     foreignKey: "idMenu",
   });
 
-  categoria.belongsTo(producto, {
+  categoria.hasMany(producto, {
     foreignKey: { name: "idCategoria" },
-    as: "producto",
+    as: "productos",
   });
-  producto.hasMany(categoria, {
+  producto.belongsTo(categoria, {
     foreignKey: { name: "idCategoria" },
-    as: "categorias",
+    as: "categoria",
   });
 
-  presentacion.belongsTo(producto, {
+  presentacion.hasMany(producto, {
     foreignKey: { name: "idPresentacion" },
-    as: "producto",
+    as: "productos",
   });
-  producto.hasMany(presentacion, {
+  producto.belongsTo(presentacion, {
     foreignKey: { name: "idPresentacion" },
-    as: "presentaciones",
+    as: "presentacion",
   });
 
-  proveedor.belongsTo(producto, {
+  proveedor.hasMany(producto, {
     foreignKey: { name: "idProveedor" },
-    as: "producto",
+    as: "productos",
   });
-  producto.hasMany(proveedor, {
+  producto.belongsTo(proveedor, {
     foreignKey: { name: "idProveedor" },
-    as: "proveedores",
+    as: "proveedor",
+  });
+  producto.belongsTo(nombreProducto, {
+    foreignKey: { name: "idNombre" },
+    as: "nombreProducto",
   });
 
   pedidos.belongsToMany(producto, {

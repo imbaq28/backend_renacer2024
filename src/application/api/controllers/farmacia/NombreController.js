@@ -1,19 +1,19 @@
 import { Finalizado, HttpCodes } from "../../../lib/global.js";
 import { Respuesta } from "../../../lib/respuesta.js";
 import {
-  crearPresentacion,
-  mostrarPresentacion,
-  buscarPresentacion,
-  eliminarPresentacion,
-  modificarPresentacion,
-} from "../../../../domain/services/farmacia/PresentacionService.js";
+  crearNombre,
+  mostrarNombre,
+  eliminarNombre,
+  modificarNombre,
+} from "../../../../domain/services/farmacia/NombreService.js";
 
 async function crear(req, res) {
   try {
     const data = req.body;
     delete data.id;
     // data.userCreated = req.user.idUsuario;
-    const respuesta = await crearPresentacion(data);
+    delete data.id;
+    const respuesta = await crearNombre(data);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -26,20 +26,7 @@ async function mostrar(req, res) {
   try {
     // const data = req.body;
     // data.userCreated = req.user.idUsuario;
-    const respuesta = await mostrarPresentacion();
-    return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
-  } catch (error) {
-    return res
-      .status(error.httpCode || HttpCodes.userError)
-      .json(new Respuesta(error.message, Finalizado.FAIL));
-  }
-}
-
-async function buscar(req, res) {
-  try {
-    const id = req.params;
-    // data.userCreated = req.user.idUsuario;
-    const respuesta = await buscarPresentacion(id);
+    const respuesta = await mostrarNombre();
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -53,7 +40,7 @@ async function modificar(req, res) {
     const datos = req.body;
     datos.id = req.params.id;
     // data.userCreated = req.user.idUsuario;
-    const respuesta = await modificarPresentacion(datos);
+    const respuesta = await modificarNombre(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -68,7 +55,7 @@ async function eliminar(req, res) {
     console.log("id", id);
     // const data = req.body;
     // data.userCreated = req.user.idUsuario;
-    const respuesta = await eliminarPresentacion(id);
+    const respuesta = await eliminarNombre(id);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -77,4 +64,4 @@ async function eliminar(req, res) {
   }
 }
 
-export { crear, mostrar, buscar, eliminar, modificar };
+export { crear, mostrar, eliminar, modificar };

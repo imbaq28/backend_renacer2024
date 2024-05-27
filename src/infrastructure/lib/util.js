@@ -230,6 +230,18 @@ function toJSON(result) {
   };
 }
 
+function aJSON(result) {
+  const rows = [];
+  if (result) {
+    if (result.length > 0) {
+      result.map((item) => {
+        rows.push(item.toJSON());
+      });
+    }
+  }
+  return rows;
+}
+
 function errorHandler(error) {
   if (error.errors) {
     const err = error.errors;
@@ -276,5 +288,6 @@ export {
   convertLinealObject,
   getQuery,
   toJSON,
+  aJSON,
   errorHandler,
 };
