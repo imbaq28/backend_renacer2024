@@ -4,16 +4,19 @@ import init from "../../init.js";
 
 let Producto;
 let Categoria;
-let NombreProducto;
+let Nombre;
 let Proveedor;
 let Presentacion;
+let Compras;
 
 const { models, transaction } = await init();
 Producto = models.producto;
 Categoria = models.categoria;
-NombreProducto = models.nombreProducto;
+Nombre = models.nombreProducto;
 Proveedor = models.proveedor;
 Presentacion = models.presentacion;
+Compras = models.compras;
+
 console.log("Producto", Producto);
 // const { categoria: Categoria } = models;
 // const { UsuarioRepository } = repositories;
@@ -31,52 +34,69 @@ async function crearProducto(data) {
 async function mostrarProducto(data) {
   try {
     console.log("data", data);
-    let cat = await Producto.findAll({
+    let productos = await Producto.findAll({
       include: [
         {
-          model: Categoria,
-          as: "categoria",
-          attributes: ["id", "nombre", "detalle", "estado"],
-        },
-        {
-          model: NombreProducto,
+          model: Nombre,
           as: "nombreProducto",
-          attributes: ["id", "nombre", "estado"],
-        },
-        {
-          model: Proveedor,
-          as: "proveedor",
           attributes: [
             "id",
-            "nombre",
-            "direccion",
-            "telefono",
-            "nit",
+            "idPresentacion",
+            "idCategoria",
+            "nombreQuimico",
+            "descripcion",
+            "imagen",
             "estado",
+          ],
+          include: [
+            {
+              model: Presentacion,
+              as: "presentacion",
+              attributes: ["id", "nombre", "detalle", "estado"],
+            },
+            {
+              model: Categoria,
+              as: "categoria",
+              attributes: ["id", "nombre", "detalle", "estado"],
+            },
           ],
         },
         {
-          model: Presentacion,
-          as: "presentacion",
-          attributes: ["id", "nombre", "detalle", "estado"],
+          model: Compras,
+          as: "detalles",
+          attributes: [
+            "id",
+            "idNombre",
+            "cantidad",
+            "observaciones",
+            "fechaVencimiento",
+            "lote",
+            "precioCompra",
+            "idProveedor",
+            "estado",
+          ],
+          limit: 5,
+          order: [["createdAt", "DESC"]],
+          include: [
+            {
+              model: Proveedor,
+              as: "proveedor",
+              attributes: [
+                "id",
+                "nombre",
+                "direccion",
+                "telefono",
+                "nit",
+                "estado",
+              ],
+            },
+          ],
         },
       ],
     });
     // return UsuarioRepository.deleteItem(id);
-    cat = aJSON(cat);
-    // const inventario = [];
-    const inventario = cat.reduce((acc, item) => {
-      // Si ya existe un item con el mismo idNombre, suma el stock
-      const existingItem = acc.find((i) => i.idNombre === item.idNombre);
-      if (existingItem) {
-        existingItem.stock += item.stock;
-      } else {
-        // Si no existe, agrega una copia del item al array acumulador
-        acc.push({ ...item });
-      }
-      return acc;
-    }, []);
-    return inventario;
+
+    return productos;
   } catch (error) {
     throw new ErrorApp(error.message, 400);
   }
@@ -95,9 +115,29 @@ async function buscarProducto(id) {
 async function modificarProducto(datos) {
   try {
     console.log(datos);
-    const { nombre, detalle, estado } = datos;
+    const { precioVenta, precioUnitario, estado } = datos;
     const cat = await Producto.update(
-      { nombre: nombre, detalle: detalle, estado: estado },
+      { precioVenta, precioUnitario, estado },
+      { where: { id: datos.id }, returning: true }
+    );
+    console.log("cat", cat[0]);
+    if (cat[0] === 1) {
+      return cat[1][0];
+    } else {
+      throw new Error("No se pudo actualizar");
+    }
+    // return UsuarioRepository.deleteItem(id);
+  } catch (error) {
+    throw new ErrorApp(error.message, 400);
+  }
+}
+
+async function modificarProductoStock(datos) {
+  try {
+    console.log(datos);
+    const { stock } = datos;
+    const cat = await Producto.update(
+      { stock },
       { where: { id: datos.id }, returning: true }
     );
     console.log("cat", cat[0]);
@@ -136,4 +176,5 @@ export {
   buscarProducto,
   eliminarProducto,
   modificarProducto,
+  modificarProductoStock,
 };
