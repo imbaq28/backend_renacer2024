@@ -11,10 +11,12 @@ const model = (sequelize, DataTypes) => {
     precioVenta: {
       type: DataTypes.FLOAT,
       field: "precio_venta",
+      defaultValue: 0,
     },
     precioUnitario: {
       type: DataTypes.FLOAT,
       field: "precio_unitario",
+      defaultValue: 0,
     },
     stock: {
       type: DataTypes.INTEGER,

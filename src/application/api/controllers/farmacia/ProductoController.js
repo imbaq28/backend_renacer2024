@@ -6,6 +6,7 @@ import {
   buscarProducto,
   eliminarProducto,
   modificarProducto,
+  modificarProductoStock,
 } from "../../../../domain/services/farmacia/ProductoService.js";
 
 async function crear(req, res) {
@@ -62,6 +63,20 @@ async function modificar(req, res) {
   }
 }
 
+async function modificarStock(req, res) {
+  try {
+    const datos = req.body;
+    datos.id = req.params.id;
+    // data.userCreated = req.user.idUsuario;
+    const respuesta = await modificarProductoStock(datos);
+    return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
+  } catch (error) {
+    return res
+      .status(error.httpCode || HttpCodes.userError)
+      .json(new Respuesta(error.message, Finalizado.FAIL));
+  }
+}
+
 async function eliminar(req, res) {
   try {
     const id = req.params.id;
@@ -77,4 +92,4 @@ async function eliminar(req, res) {
   }
 }
 
-export { crear, mostrar, buscar, eliminar, modificar };
+export { crear, mostrar, buscar, eliminar, modificar, modificarStock };

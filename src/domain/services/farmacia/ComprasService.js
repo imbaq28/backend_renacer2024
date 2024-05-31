@@ -6,6 +6,7 @@ let Proveedor;
 let Nombre;
 let Presentacion;
 let Categoria;
+let Producto;
 
 const { models, transaction } = await init();
 Compras = models.compras;
@@ -13,6 +14,7 @@ Proveedor = models.proveedor;
 Nombre = models.nombreProducto;
 Presentacion = models.presentacion;
 Categoria = models.categoria;
+Producto = models.producto;
 
 console.log("compras", Compras);
 // const { categoria: Categoria } = models;
@@ -20,9 +22,25 @@ console.log("compras", Compras);
 
 async function crearCompras(data) {
   try {
-    const cat = await Compras.create(data);
+    const compras = await Compras.create(data);
+    const producto = await Producto.findOne({ idNombre: compras.idNombre });
+    if (!producto) {
+      await Producto.create({
+        idNombre: compras.idNombre,
+        stock: compras.cantidad,
+      });
+    } else {
+      const total = parseInt(producto.stock) + parseInt(compras.cantidad);
+      await Producto.update(
+        {
+          stock: total,
+        },
+        { where: { id: producto.id }, returning: true }
+      );
+    }
+
     // return UsuarioRepository.deleteItem(id);db, config);
-    return cat;
+    return compras;
   } catch (error) {
     throw new ErrorApp(error.message, 400);
   }
@@ -84,21 +102,23 @@ async function modificarCompras(datos) {
     console.log(datos);
     const {
       nombre,
-      idPresentacion,
-      idCategoria,
-      nombreQuimico,
-      descripcion,
-      imagen,
+      idNombre,
+      observaciones,
+      fechaVencimiento,
+      lote,
+      precioCompra,
+      idProveedor,
       estado,
     } = datos;
     const cat = await Compras.update(
       {
         nombre,
-        idPresentacion,
-        idCategoria,
-        nombreQuimico,
-        descripcion,
-        imagen,
+        idNombre,
+        observaciones,
+        fechaVencimiento,
+        lote,
+        precioCompra,
+        idProveedor,
         estado,
       },
       { where: { id: datos.id }, returning: true }
