@@ -8,45 +8,6 @@ const model = (sequelize, DataTypes) => {
       allowNull: false,
       field: "id_nombre",
     },
-    idCategoria: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      field: "id_categoria",
-    },
-    descripcion: {
-      type: DataTypes.STRING(300),
-      field: "descripcion",
-    },
-    fechaVencimiento: {
-      type: DataTypes.DATEONLY,
-      field: "fecha_vencimiento",
-    },
-    imagen: {
-      type: DataTypes.STRING(300),
-      field: "imagen",
-    },
-    lote: {
-      type: DataTypes.STRING(300),
-      field: "lote",
-    },
-    nombreComercial: {
-      type: DataTypes.STRING(300),
-      field: "nombre_comercial",
-    },
-    precioCompra: {
-      type: DataTypes.FLOAT,
-      field: "precio_compra",
-    },
-    idPresentacion: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      field: "id_presentacion",
-    },
-    idProveedor: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      field: "id_proveedor",
-    },
     precioVenta: {
       type: DataTypes.FLOAT,
       field: "precio_venta",
