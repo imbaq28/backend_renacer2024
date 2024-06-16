@@ -7,11 +7,6 @@ const model = (sequelize, DataTypes) => {
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    idUsuario: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      field: "id_usuario",
-    },
     descripcion: {
       type: DataTypes.TEXT,
     },

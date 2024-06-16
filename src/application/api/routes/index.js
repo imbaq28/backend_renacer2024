@@ -1,12 +1,10 @@
 import express from "express";
 import FarmaciaRoute from "./farmacia/index.js";
-
-import UsuarioRoute from "../routes/system/UsuarioRoute.js";
-import CategoriaRoute from "../routes/farmacia/CategoriaRoute.js";
+import SystemRoute from "./system/index.js";
 
 const router = express.Router();
 
-router.use("/system", UsuarioRoute);
+router.use("/system", SystemRoute);
 router.use("/farmacia", FarmaciaRoute);
 
 export default router;
