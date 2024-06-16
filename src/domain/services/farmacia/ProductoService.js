@@ -35,12 +35,14 @@ async function mostrarProducto(data) {
   try {
     console.log("data", data);
     let productos = await Producto.findAll({
+      order: ["createdAt", "DESC"],
       include: [
         {
           model: Nombre,
           as: "nombreProducto",
           attributes: [
             "id",
+            "nombre",
             "idPresentacion",
             "idCategoria",
             "nombreQuimico",
@@ -118,7 +120,26 @@ async function modificarProducto(datos) {
     const { precioVenta, precioUnitario, estado } = datos;
     const cat = await Producto.update(
       { precioVenta, precioUnitario, estado },
-      { where: { id: datos.id }, returning: true }
+      {
+        where: { id: datos.id },
+        include: [
+          {
+            model: Nombre,
+            as: "nombreProducto",
+            attributes: [
+              "id",
+              "nombre",
+              "idPresentacion",
+              "idCategoria",
+              "nombreQuimico",
+              "descripcion",
+              "imagen",
+              "estado",
+            ],
+          },
+        ],
+        returning: true,
+      }
     );
     console.log("cat", cat[0]);
     if (cat[0] === 1) {

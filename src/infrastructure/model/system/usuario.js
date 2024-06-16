@@ -9,6 +9,7 @@ const model = (sequelize, DataTypes) => {
     },
     numeroDocumento: {
       type: DataTypes.STRING(15),
+      unique: true,
       field: "numero_documento",
     },
     complemento: {
@@ -63,6 +64,11 @@ const model = (sequelize, DataTypes) => {
       defaultValue: "ACTIVO",
       allowNull: false,
       field: "estado",
+    },
+    idRol: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      field: "id_rol",
     },
   };
 

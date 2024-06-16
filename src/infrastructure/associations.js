@@ -30,12 +30,12 @@ const associations = (models) => {
 
   pedidos.belongsToMany(producto, {
     through: { model: pedidoProducto, unique: false },
-    as: "pedidos",
+    as: "productos",
     foreignKey: "idPedido",
   });
   producto.belongsToMany(pedidos, {
     through: { model: pedidoProducto, unique: false },
-    as: "productos",
+    as: "pedidos",
     foreignKey: "idProducto",
   });
 

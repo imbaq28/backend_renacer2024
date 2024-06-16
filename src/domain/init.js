@@ -12,6 +12,7 @@ async function init() {
   const { transaction, _models } = await create(db);
   models = _models;
   console.log("modelos init", models);
+  console.log("transaction", transaction);
   return {
     models,
     transaction,

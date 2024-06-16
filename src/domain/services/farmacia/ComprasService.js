@@ -23,7 +23,9 @@ console.log("compras", Compras);
 async function crearCompras(data) {
   try {
     const compras = await Compras.create(data);
-    const producto = await Producto.findOne({ idNombre: compras.idNombre });
+    const producto = await Producto.findOne({
+      where: { idNombre: compras.idNombre },
+    });
     if (!producto) {
       await Producto.create({
         idNombre: compras.idNombre,
@@ -68,6 +70,7 @@ async function mostrarCompras(data) {
           as: "nombreProducto",
           attributes: [
             "id",
+            "nombre",
             "idPresentacion",
             "idCategoria",
             "nombreQuimico",

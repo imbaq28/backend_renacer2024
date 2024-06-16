@@ -17,6 +17,10 @@ const model = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       field: "cantidad",
     },
+    total: {
+      type: DataTypes.INTEGER,
+      field: "total",
+    },
   };
 
   // Agregando campos para el log
