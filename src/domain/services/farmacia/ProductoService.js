@@ -35,7 +35,6 @@ async function mostrarProducto(data) {
   try {
     console.log("data", data);
     let productos = await Producto.findAll({
-      order: ["createdAt", "DESC"],
       include: [
         {
           model: Nombre,
@@ -95,6 +94,7 @@ async function mostrarProducto(data) {
           ],
         },
       ],
+      // order: ["createdAt", "DESC"],
     });
     // return UsuarioRepository.deleteItem(id);
 

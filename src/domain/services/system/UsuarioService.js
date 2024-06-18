@@ -1,22 +1,38 @@
 import { ErrorApp } from "../../lib/error.js";
 import moment from "moment";
 import init from "../../init.js";
+import auth from "../../../common/config/auth.js";
+import bcrypt from "bcrypt";
 
 let Usuario;
+let Roles;
 
 const { models, transaction } = await init();
 Usuario = models.usuario;
+Roles = models.rol;
+
+async function codificarContrasena(password) {
+  return bcrypt.hash(password, auth.saltRounds);
+}
+
+async function verificarContrasena(password, hash) {
+  return bcrypt.compare(password, hash);
+}
 
 console.log("Usuario", Usuario);
 // const { categoria: Categoria } = models;
 // const { UsuarioRepository } = repositories;
 
 async function crearUsuario(data) {
+  console.log(data);
   try {
     data.fechaNacimiento = moment(data.fechaNacimiento, "DD/MM/YYYY").format(
       "YYYY-MM-DD"
     );
-    console.log(data.fechaNacimiento);
+    if (data.contrasena) {
+      data.contrasena = await codificarContrasena(data.contrasena);
+      console.log(data.contrasena);
+    }
     const usuario = await Usuario.create(data);
     // return UsuarioRepository.deleteItem(id);db, config);
     return usuario;
@@ -28,9 +44,18 @@ async function crearUsuario(data) {
 async function mostrarUsuario(data) {
   try {
     console.log("data", data);
-    const cat = await Usuario.findAll({});
+    const user = await Usuario.findAll({
+      where: data,
+      include: [
+        {
+          model: Roles,
+          as: "roles",
+          attributes: ["id", "nombre", "descripcion", "estado"],
+        },
+      ],
+    });
     // return UsuarioRepository.deleteItem(id);
-    return cat;
+    return user;
   } catch (error) {
     throw new ErrorApp(error.message, 400);
   }

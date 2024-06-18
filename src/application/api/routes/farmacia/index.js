@@ -15,6 +15,6 @@ router.use("/proveedores", ProveedorRoute);
 router.use("/nombre", NombreRoute);
 router.use("/compras", ComprasRoute);
 router.use("/ventas", VentasRoute);
-router.use("/producto", ProductoRoute);
+router.use("/medicamento", ProductoRoute);
 
 export default router;
