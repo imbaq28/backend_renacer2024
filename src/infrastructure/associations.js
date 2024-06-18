@@ -14,8 +14,8 @@ const associations = (models) => {
     compras,
   } = models;
 
-  rol.belongsTo(usuario, { foreignKey: { name: "idRol" }, as: "usuario" });
-  usuario.hasMany(rol, { foreignKey: { name: "idRol" }, as: "roles" });
+  usuario.belongsTo(rol, { foreignKey: { name: "idRol" }, as: "roles" });
+  rol.hasMany(usuario, { foreignKey: { name: "idRol" }, as: "usuario" });
 
   rol.belongsToMany(menu, {
     through: { model: rolMenu, unique: false },
