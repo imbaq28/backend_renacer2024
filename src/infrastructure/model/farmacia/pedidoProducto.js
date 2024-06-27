@@ -18,7 +18,7 @@ const model = (sequelize, DataTypes) => {
       field: "cantidad",
     },
     total: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       field: "total",
     },
   };

@@ -13,9 +13,10 @@ console.log("Roles", Roles);
 
 async function crearRoles(data) {
   try {
-    data.fechaNacimiento = moment(data.fechaNacimiento, "DD/MM/YYYY").format(
-      "YYYY-MM-DD"
-    );
+    data.fechaNacimiento = moment(
+      data.fechaNacimiento || new Date(),
+      "DD/MM/YYYY"
+    ).format("YYYY-MM-DD");
     console.log(data.fechaNacimiento);
     const rol = await Roles.create(data);
     // return RolesRepository.deleteItem(id);db, config);
