@@ -22,6 +22,11 @@ const model = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       field: "stock",
     },
+    cantidadMinima: {
+      type: DataTypes.INTEGER,
+      field: "cantidad_minima",
+      defaultValue: 0,
+    },
     estado: {
       type: DataTypes.ENUM,
       values: ["ACTIVO", "INACTIVO"],

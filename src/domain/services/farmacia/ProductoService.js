@@ -94,7 +94,7 @@ async function mostrarProducto(data) {
           ],
         },
       ],
-      // order: ["createdAt", "DESC"],
+      order: [["createdAt", "DESC"]],
     });
     // return UsuarioRepository.deleteItem(id);
 
@@ -117,9 +117,9 @@ async function buscarProducto(id) {
 async function modificarProducto(datos) {
   try {
     console.log(datos);
-    const { precioVenta, precioUnitario, estado } = datos;
+    const { precioVenta, precioUnitario, cantidadMinima, estado } = datos;
     const cat = await Producto.update(
-      { precioVenta, precioUnitario, estado },
+      { precioVenta, precioUnitario, cantidadMinima, estado },
       {
         where: { id: datos.id },
         include: [
