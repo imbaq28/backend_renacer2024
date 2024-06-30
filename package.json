@@ -38,6 +38,7 @@
     "nodemailer-smtp-transport": "^2.7.4",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
+    "puppeteer": "^22.12.1",
     "sequelize": "^6.37.2",
     "sequelize-cli": "^6.6.2",
     "uuid": "^9.0.1"

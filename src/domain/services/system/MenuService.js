@@ -39,14 +39,10 @@ async function modificarMenu(datos) {
     console.log(datos);
     const { nombre, descripcion, estado } = datos;
 
-    const rol = await Menu.update(
-      {
-        nombre,
-        descripcion,
-        estado,
-      },
-      { where: { id: datos.id }, returning: true }
-    );
+    const rol = await Menu.update(datos, {
+      where: { id: datos.id },
+      returning: true,
+    });
     console.log("rol", rol[0]);
     if (rol[0] === 1) {
       return rol[1][0];
