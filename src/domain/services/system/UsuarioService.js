@@ -3,13 +3,19 @@ import moment from "moment";
 import init from "../../init.js";
 import auth from "../../../common/config/auth.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
+
+const secret = process.env.SECRET;
 
 let Usuario;
 let Roles;
+let Menu;
 
 const { models, transaction } = await init();
 Usuario = models.usuario;
 Roles = models.rol;
+Menu = models.menu;
 
 async function codificarContrasena(password) {
   return bcrypt.hash(password, auth.saltRounds);
@@ -17,6 +23,14 @@ async function codificarContrasena(password) {
 
 async function verificarContrasena(password, hash) {
   return bcrypt.compare(password, hash);
+}
+
+function sign(payload, secret, callback) {
+  return jwt.sign(payload, secret, callback);
+}
+
+function verify(token, secret, callback) {
+  return jwt.verify(token, secret, callback);
 }
 
 console.log("Usuario", Usuario);
@@ -127,4 +141,72 @@ async function eliminarUsuario(id) {
   }
 }
 
-export { crearUsuario, mostrarUsuario, eliminarUsuario, modificarUsuario };
+async function loginUsuario(data) {
+  console.log(secret);
+  console.log(data);
+  try {
+    const usuarioBuscar = await Usuario.findOne({
+      where: { usuario: data.usuario },
+      include: [
+        {
+          model: Roles,
+          as: "roles",
+          attributes: ["id", "nombre", "descripcion", "estado"],
+          include: [
+            {
+              model: Menu,
+              as: "menus",
+              through: { attributes: [] },
+              attributes: ["id", "nombre", "ruta", "icono", "orden", "estado"],
+              order: [["orden", "DESC"]],
+            },
+          ],
+        },
+      ],
+      attributes: [
+        "id",
+        "tipoDocumento",
+        "numeroDocumento",
+        "complemento",
+        "fechaNacimiento",
+        "usuario",
+        "nombres",
+        "primerApellido",
+        "segundoApellido",
+        "telefono",
+        "celular",
+        "correoElectronico",
+        "estado",
+        "idRol",
+        "userCreated",
+        "contrasena",
+      ],
+    });
+    if (!usuarioBuscar) throw new Error("El Usuario no existe");
+    const usuario = usuarioBuscar.toJSON();
+
+    const verificar = await verificarContrasena(
+      data.contrasena,
+      usuario.contrasena
+    );
+    if (!verificar) throw new Error("Error en el usuario o contraseña");
+
+    const token = sign({ id: usuario.id }, secret, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+    delete usuario.contrasena;
+    usuario.token = token;
+
+    return usuario;
+  } catch (error) {
+    throw new ErrorApp(error.message, 400);
+  }
+}
+
+export {
+  crearUsuario,
+  mostrarUsuario,
+  eliminarUsuario,
+  modificarUsuario,
+  loginUsuario,
+};

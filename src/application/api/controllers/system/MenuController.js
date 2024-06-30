@@ -1,19 +1,18 @@
 import { Finalizado, HttpCodes } from "../../../lib/global.js";
 import { Respuesta } from "../../../lib/respuesta.js";
 import {
-  crearUsuario,
-  mostrarUsuario,
-  eliminarUsuario,
-  modificarUsuario,
-  loginUsuario,
-} from "../../../../domain/services/system/UsuarioService.js";
+  crearMenu,
+  mostrarMenu,
+  eliminarMenu,
+  modificarMenu,
+} from "../../../../domain/services/system/MenuService.js";
 
 async function crear(req, res) {
   try {
     const data = req.body;
     delete data.id;
-    // data.userCreated = req.user.idUsuario;
-    const respuesta = await crearUsuario(data);
+    // data.userCreated = req.user.idMenu;
+    const respuesta = await crearMenu(data);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -25,9 +24,8 @@ async function crear(req, res) {
 async function mostrar(req, res) {
   try {
     // const data = req.body;
-    // data.userCreated = req.user.idUsuario;
-    const data = req.query;
-    const respuesta = await mostrarUsuario(data);
+    // data.userCreated = req.user.idMenu;
+    const respuesta = await mostrarMenu();
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -40,8 +38,8 @@ async function modificar(req, res) {
   try {
     const datos = req.body;
     datos.id = req.params.id;
-    // data.userCreated = req.user.idUsuario;
-    const respuesta = await modificarUsuario(datos);
+    // data.userCreated = req.user.idMenu;
+    const respuesta = await modificarMenu(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -55,8 +53,8 @@ async function eliminar(req, res) {
     const id = req.params.id;
     console.log("id", id);
     // const data = req.body;
-    // data.userCreated = req.user.idUsuario;
-    const respuesta = await eliminarUsuario(id);
+    // data.userCreated = req.user.idMenu;
+    const respuesta = await eliminarMenu(id);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -65,18 +63,4 @@ async function eliminar(req, res) {
   }
 }
 
-async function login(req, res) {
-  try {
-    const data = req.body;
-    // delete data.id;
-    // data.userCreated = req.user.idUsuario;
-    const respuesta = await loginUsuario(data);
-    return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
-  } catch (error) {
-    return res
-      .status(error.httpCode || HttpCodes.userError)
-      .json(new Respuesta(error.message, Finalizado.FAIL));
-  }
-}
-
-export { crear, mostrar, eliminar, modificar, login };
+export { crear, mostrar, eliminar, modificar };
