@@ -1,6 +1,11 @@
 import { ErrorApp } from "../../lib/error.js";
 import moment from "moment";
+import puppeteer from "puppeteer";
 import init from "../../init.js";
+import path from "path";
+import fs from "fs";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 let Producto;
 let Compras;
@@ -159,4 +164,45 @@ async function cantidadMinimaService(data) {
   }
 }
 
-export { fechaVencimientoService, cantidadMinimaService };
+async function convertPDF(
+  html,
+  path,
+  margins = { top: "20mm", right: "20mm", botton: "20mm", left: "30mm" }
+) {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox"],
+  });
+  const page = await browser.newPage();
+  await page.setContent(html);
+  await page.pdf({
+    path,
+    format: "letter",
+    margin: margins,
+    // printBackground: true,
+  });
+  await browser.close();
+}
+
+async function generarFacturaService(id) {
+  try {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const pdfFolder = path.resolve(__dirname, "./pdf");
+    fs.existsSync(pdfFolder) || fs.mkdirSync(pdfFolder);
+    console.log(path.resolve(pdfFolder, `${id}.pdf`));
+    await convertPDF(
+      "<h1>PDF CREADO</h1>",
+      path.resolve(pdfFolder, `${id}.pdf`)
+    );
+
+    return id;
+  } catch (error) {
+    throw new ErrorApp(error.message, 400);
+  }
+}
+
+export {
+  fechaVencimientoService,
+  cantidadMinimaService,
+  generarFacturaService,
+};

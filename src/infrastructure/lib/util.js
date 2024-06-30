@@ -108,12 +108,12 @@ const timestamps = {
   },
   userUpdated: {
     type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
+    // defaultValue: Sequelize.UUIDV4,
     field: "_user_updated",
   },
   userDeleted: {
     type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
+    // defaultValue: Sequelize.UUIDV4,
     field: "_user_deleted",
   },
   createdAt: {

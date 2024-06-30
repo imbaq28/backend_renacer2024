@@ -196,6 +196,7 @@ async function loginUsuario(data) {
     });
     delete usuario.contrasena;
     usuario.token = token;
+    usuario.menus = usuario.roles?.menus || [];
 
     return usuario;
   } catch (error) {

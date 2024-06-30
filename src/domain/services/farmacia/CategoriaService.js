@@ -22,7 +22,9 @@ async function crearCategoria(data) {
 async function mostrarCategoria(data) {
   try {
     console.log("data", data);
-    const cat = await Categoria.findAll();
+    const cat = await Categoria.findAll({
+      order: [["createdAt", "DESC"]],
+    });
     // return UsuarioRepository.deleteItem(id);
     return cat;
   } catch (error) {
@@ -44,10 +46,10 @@ async function modificarCategoria(datos) {
   try {
     console.log(datos);
     const { nombre, detalle, estado } = datos;
-    const cat = await Categoria.update(
-      { nombre: nombre, detalle: detalle, estado: estado },
-      { where: { id: datos.id }, returning: true }
-    );
+    const cat = await Categoria.update(datos, {
+      where: { id: datos.id },
+      returning: true,
+    });
     console.log("cat", cat[0]);
     if (cat[0] === 1) {
       return cat[1][0];
@@ -60,15 +62,20 @@ async function modificarCategoria(datos) {
   }
 }
 
-async function eliminarCategoria(id) {
+async function eliminarCategoria(data) {
   try {
+    console.log(data);
+    data.deletedAt = new Date();
     const cat = await Categoria.findOne({
       where: {
-        id,
+        id: data.id,
       },
     });
     if (cat) {
-      await Categoria.destroy({ where: { id } });
+      await Categoria.update(data, {
+        where: { id: data.id },
+      });
+      // await Categoria.destroy({ where: { id: data.id } });
       return "Borrado";
     } else {
       throw new Error("La categoria no existe");
