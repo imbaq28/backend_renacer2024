@@ -3,9 +3,13 @@ import moment from "moment";
 import init from "../../init.js";
 
 let Roles;
+let RolMenu;
+let Menu;
 
 const { models, transaction } = await init();
 Roles = models.rol;
+RolMenu = models.rolMenu;
+Menu = models.menu;
 
 console.log("Roles", Roles);
 // const { categoria: Categoria } = models;
@@ -29,7 +33,17 @@ async function crearRoles(data) {
 async function mostrarRoles(data) {
   try {
     console.log("data", data);
-    const cat = await Roles.findAll({});
+    const cat = await Roles.findAll({
+      include: [
+        {
+          model: Menu,
+          as: "menus",
+          through: { attributes: [] },
+          attributes: ["id", "nombre", "ruta", "icono", "orden", "estado"],
+          order: [["orden", "DESC"]],
+        },
+      ],
+    });
     // return RolesRepository.deleteItem(id);
     return cat;
   } catch (error) {
@@ -80,4 +94,36 @@ async function eliminarRoles(id) {
   }
 }
 
-export { crearRoles, mostrarRoles, eliminarRoles, modificarRoles };
+async function agregarMenuRol(datos) {
+  try {
+    const { data, id } = datos;
+    const roles = await Roles.findOne({ where: { id: id } });
+    if (!roles) throw new Error("El Rol no existe");
+
+    const todosMenu = await RolMenu.findAll({ where: { idRol: id } });
+    const menuJson = todosMenu.map((r) => r.toJSON());
+
+    if (menuJson.length > 0) {
+      for (const men of menuJson) {
+        await RolMenu.destroy({ where: { id: men.id } });
+      }
+    }
+    for (const menuRol of data) {
+      await RolMenu.create({ idRol: id, idMenu: menuRol });
+    }
+
+    const rolMenu = await RolMenu.findAll({ where: { idRol: id } });
+
+    return rolMenu;
+  } catch (error) {
+    throw new ErrorApp(error.message, 400);
+  }
+}
+
+export {
+  crearRoles,
+  mostrarRoles,
+  eliminarRoles,
+  modificarRoles,
+  agregarMenuRol,
+};

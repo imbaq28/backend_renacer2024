@@ -5,6 +5,7 @@ import {
   mostrarRoles,
   eliminarRoles,
   modificarRoles,
+  agregarMenuRol,
 } from "../../../../domain/services/system/RolesService.js";
 
 async function crear(req, res) {
@@ -63,4 +64,18 @@ async function eliminar(req, res) {
   }
 }
 
-export { crear, mostrar, eliminar, modificar };
+async function agregarMenu(req, res) {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    // data.userCreated = req.user.idRoles;
+    const respuesta = await agregarMenuRol({ id, data });
+    return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
+  } catch (error) {
+    return res
+      .status(error.httpCode || HttpCodes.userError)
+      .json(new Respuesta(error.message, Finalizado.FAIL));
+  }
+}
+
+export { crear, mostrar, eliminar, modificar, agregarMenu };

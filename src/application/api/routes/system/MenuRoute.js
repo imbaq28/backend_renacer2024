@@ -4,8 +4,7 @@ import {
   mostrar,
   eliminar,
   modificar,
-  agregarMenu,
-} from "../../controllers/system/RolesController.js";
+} from "../../controllers/system/MenuController.js";
 
 const router = express.Router();
 // const { UsuarioController } = controllers;
@@ -15,6 +14,5 @@ router.post("/", crear);
 router.get("/", mostrar);
 router.put("/:id", modificar);
 router.delete("/:id", eliminar);
-router.post("/:id/agregar-menu", agregarMenu);
 
 export default router;

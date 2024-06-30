@@ -4,6 +4,7 @@ import {
   mostrar,
   eliminar,
   modificar,
+  login,
 } from "../../controllers/system/UsuarioController.js";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.post("/", crear);
 router.get("/", mostrar);
 router.put("/:id", modificar);
 router.delete("/:id", eliminar);
+router.post("/login", login);
 
 export default router;
