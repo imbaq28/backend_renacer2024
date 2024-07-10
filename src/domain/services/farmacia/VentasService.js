@@ -10,6 +10,7 @@ let Categoria;
 let Producto;
 let Pedidos;
 let PedidoProducto;
+let Usuario;
 
 const { models, transaction } = await init();
 Compras = models.compras;
@@ -20,6 +21,7 @@ Categoria = models.categoria;
 Producto = models.producto;
 Pedidos = models.pedidos;
 PedidoProducto = models.pedidoProducto;
+Usuario = models.usuario;
 
 console.log("Pedidos", Pedidos);
 // const { categoria: Categoria } = models;
@@ -39,10 +41,12 @@ async function crearVentas(data) {
       });
       if (productoActual.stock > producto.cantidad) {
         producto.idPedido = nuevoPedido.id;
+        producto.userCreated = data.userCreated;
         await PedidoProducto.create(producto, { transaction: t });
         await Producto.update(
           {
             stock: parseInt(productoActual.stock) - parseInt(producto.cantidad),
+            userUpdated: data.userCreated,
           },
           { where: { id: productoActual.id }, transaction: t }
         );
@@ -114,6 +118,38 @@ async function mostrarVentas(data) {
                 },
               ],
             },
+          ],
+        },
+        {
+          model: Usuario,
+          as: "cliente",
+          attributes: [
+            "id",
+            "numeroDocumento",
+            "complemento",
+            "fechaNacimiento",
+            "usuario",
+            "nombres",
+            "primerApellido",
+            "segundoApellido",
+            "celular",
+            "correoElectronico",
+          ],
+        },
+        {
+          model: Usuario,
+          as: "vendedor",
+          attributes: [
+            "id",
+            "numeroDocumento",
+            "complemento",
+            "fechaNacimiento",
+            "usuario",
+            "nombres",
+            "primerApellido",
+            "segundoApellido",
+            "celular",
+            "correoElectronico",
           ],
         },
       ],

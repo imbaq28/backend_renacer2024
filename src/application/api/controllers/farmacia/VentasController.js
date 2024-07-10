@@ -10,6 +10,7 @@ import {
 async function crear(req, res) {
   try {
     const data = req.body;
+    data.userCreated = req.user.id;
     delete data.id;
     // data.userCreated = req.user.idUsuario;
     const respuesta = await crearVentas(data);

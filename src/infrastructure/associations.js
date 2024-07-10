@@ -90,6 +90,24 @@ const associations = (models) => {
     as: "detalles",
   });
 
+  pedidos.belongsTo(usuario, {
+    foreignKey: { name: "idCliente" },
+    as: "cliente",
+  });
+  usuario.hasMany(pedidos, {
+    foreignKey: { name: "idCliente" },
+    as: "pedidos",
+  });
+
+  pedidos.belongsTo(usuario, {
+    foreignKey: { name: "userCreated" },
+    as: "vendedor",
+  });
+  usuario.hasMany(pedidos, {
+    foreignKey: { name: "userCreated" },
+    as: "pedidosVendedor",
+  });
+
   return models;
 };
 

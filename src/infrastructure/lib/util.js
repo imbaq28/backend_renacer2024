@@ -162,7 +162,7 @@ function setTimestamps(fields) {
 
 function setTimestampsSeeder(
   arr,
-  idUser = "7171272e-b31b-4c34-9220-9f535c958c5c"
+  idUser = "cd2bd881-1133-4ace-8d11-9874b82c0a69"
 ) {
   arr.map((el, index) => {
     arr[index] = Object.assign(el, {

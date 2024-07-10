@@ -6,7 +6,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "db": "npm run setup && npm run seeders",
+    "db": "npm run setup && npm run seeders-es6",
     "start": "node src/application/server",
     "start:dev": "nodemon src/application/server",
     "secure": "NODE_ENV=secure nodemon src/application/server",
@@ -17,7 +17,8 @@
     "setup": "node src/infrastructure/setup.js",
     "seeders": "sequelize db:seed:all --debug  --seeders-path src/infrastructure/seeders --config src/infrastructure/lib/config-seeders.js",
     "seeders-update": "NODE_ENV=production sequelize db:seed:all --seeders-path src/infrastructure/seeders/update --config src/lib/config-seeders.js",
-    "seeders-prod": "NODE_ENV=production npm run seeders"
+    "seeders-prod": "NODE_ENV=production npm run seeders",
+    "seeders-es6": "node src/infrastructure/seeders/run-seeder.js"
   },
   "dependencies": {
     "axios": "^1.6.8",

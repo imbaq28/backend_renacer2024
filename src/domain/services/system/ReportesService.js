@@ -4,8 +4,8 @@ import puppeteer from "puppeteer";
 import init from "../../init.js";
 import path from "path";
 import fs from "fs";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import app from "../../../common/config/app.js";
+import ejs from "ejs";
 
 let Producto;
 let Compras;
@@ -13,6 +13,9 @@ let Proveedor;
 let Nombre;
 let Presentacion;
 let Categoria;
+let Pedidos;
+let PedidoProducto;
+let Usuario;
 
 const { models, transaction } = await init();
 Producto = models.producto;
@@ -21,6 +24,9 @@ Proveedor = models.proveedor;
 Nombre = models.nombreProducto;
 Presentacion = models.presentacion;
 Categoria = models.categoria;
+Pedidos = models.pedidos;
+PedidoProducto = models.pedidoProducto;
+Usuario = models.usuario;
 
 console.log("Roles", Producto);
 // const { categoria: Categoria } = models;
@@ -186,16 +192,83 @@ async function convertPDF(
 
 async function generarFacturaService(id) {
   try {
-    const __dirname = dirname(fileURLToPath(import.meta.url));
-    const pdfFolder = path.resolve(__dirname, "./pdf");
+    const pedidoAntes = await Pedidos.findOne({
+      include: [
+        {
+          model: Producto,
+          as: "productos",
+          through: { attributes: ["id", "cantidad", "total"] },
+          attributes: ["id"],
+          include: [
+            {
+              model: Nombre,
+              as: "nombreProducto",
+              attributes: [
+                "id",
+                "nombre",
+                "idPresentacion",
+                "idCategoria",
+                "nombreQuimico",
+                "descripcion",
+                "imagen",
+                "estado",
+              ],
+              include: [
+                {
+                  model: Presentacion,
+                  as: "presentacion",
+                  attributes: ["id", "nombre", "detalle", "estado"],
+                },
+                {
+                  model: Categoria,
+                  as: "categoria",
+                  attributes: ["id", "nombre", "detalle", "estado"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: Usuario,
+          as: "cliente",
+          attributes: [
+            "id",
+            "numeroDocumento",
+            "complemento",
+            "fechaNacimiento",
+            "usuario",
+            "nombres",
+            "primerApellido",
+            "segundoApellido",
+            "celular",
+            "correoElectronico",
+          ],
+        },
+      ],
+      where: { id: id },
+    });
+    const pedido = pedidoAntes.toJSON();
+    pedido.fechaPedido = moment(pedido.fechaPedido).format("DD-MM-YYYY");
+    console.log(pedido.fechaPedido);
+    if (!pedido) throw new Error("El pedido no existe");
+    const pdfFolder = path.resolve(app.rootPath, "./pdf");
     fs.existsSync(pdfFolder) || fs.mkdirSync(pdfFolder);
     console.log(path.resolve(pdfFolder, `${id}.pdf`));
-    await convertPDF(
-      "<h1>PDF CREADO</h1>",
-      path.resolve(pdfFolder, `${id}.pdf`)
-    );
 
-    return id;
+    const ubicacionImagen = path.resolve("public/image/ren.jpg");
+    let imagen = fs.readFileSync(ubicacionImagen, "base64");
+
+    const html = await ejs.renderFile(
+      path.resolve(`${app.rootPath}/src/views/factura.ejs`),
+      {
+        titulo: "Factura",
+        pedido,
+        imagen,
+      }
+    );
+    await convertPDF(html, path.resolve(pdfFolder, `${id}.pdf`));
+
+    return pedido;
   } catch (error) {
     throw new ErrorApp(error.message, 400);
   }

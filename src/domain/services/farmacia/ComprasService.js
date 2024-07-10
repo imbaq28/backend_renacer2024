@@ -30,12 +30,16 @@ async function crearCompras(data) {
       await Producto.create({
         idNombre: compras.idNombre,
         stock: compras.cantidad,
+        precioUnitario: parseInt(data.precioCompra)/parseInt(data.cantidad),
+        userCreated: data.userCreated
       });
     } else {
       const total = parseInt(producto.stock) + parseInt(compras.cantidad);
       await Producto.update(
         {
           stock: total,
+          precioUnitario: parseInt(data.precioCompra)/parseInt(data.cantidad),
+          userUpdated: data.userCreated
         },
         { where: { id: producto.id }, returning: true }
       );
@@ -104,25 +108,21 @@ async function modificarCompras(datos) {
   try {
     console.log(datos);
     const {
-      nombre,
-      idNombre,
       observaciones,
       fechaVencimiento,
       lote,
-      precioCompra,
       idProveedor,
       estado,
+      userUpdated
     } = datos;
     const cat = await Compras.update(
       {
-        nombre,
-        idNombre,
         observaciones,
         fechaVencimiento,
         lote,
-        precioCompra,
         idProveedor,
         estado,
+        userUpdated
       },
       { where: { id: datos.id }, returning: true }
     );
@@ -138,15 +138,18 @@ async function modificarCompras(datos) {
   }
 }
 
-async function eliminarCompras(id) {
+async function eliminarCompras(datos) {
   try {
     const cat = await Compras.findOne({
       where: {
-        id,
+        id:datos.id,
       },
     });
     if (cat) {
-      await Compras.destroy({ where: { id } });
+      datos.deletedAt = new Date()
+      await Compras.update(datos, {
+        where: { id: datos.id },
+      });;
       return "Borrado";
     } else {
       throw new Error("El id de compras no existe");
