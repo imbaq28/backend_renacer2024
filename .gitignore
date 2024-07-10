@@ -11,4 +11,5 @@ lerna-debug.log*
 .pnp.*
 node_modules/
 jspm_packages/
+pdf/
 yarn.lock

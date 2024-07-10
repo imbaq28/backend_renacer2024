@@ -10,6 +10,7 @@ import {
 async function crear(req, res) {
   try {
     const data = req.body;
+    data.userCreated = req.user.id;
     delete data.id;
     // data.userCreated = req.user.idUsuario;
     delete data.id;
@@ -38,6 +39,7 @@ async function mostrar(req, res) {
 async function modificar(req, res) {
   try {
     const datos = req.body;
+    datos.userUpdated = req.user.id;
     datos.id = req.params.id;
     // data.userCreated = req.user.idUsuario;
     const respuesta = await modificarCompras(datos);
@@ -51,11 +53,13 @@ async function modificar(req, res) {
 
 async function eliminar(req, res) {
   try {
-    const id = req.params.id;
-    console.log("id", id);
+    const datos = {}
+    console.log("id", req.user.id);
+    datos.userDeleted = req.user.id;
+    datos.id = req.params.id;
     // const data = req.body;
     // data.userCreated = req.user.idUsuario;
-    const respuesta = await eliminarCompras(id);
+    const respuesta = await eliminarCompras(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res

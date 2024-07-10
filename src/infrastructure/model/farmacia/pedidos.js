@@ -24,6 +24,7 @@ const model = (sequelize, DataTypes) => {
       type: DataTypes.ENUM,
       values: ["ACTIVO", "INACTIVO"],
       field: "estado",
+      defaultValue: "ACTIVO",
     },
   };
 

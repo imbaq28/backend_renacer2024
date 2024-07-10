@@ -1,0 +1,139 @@
+Date : 2024-07-04 15:55:00
+Directory : e:\proyecto_renacer2024\backend_renacer
+Total : 80 files,  3949 codes, 362 comments, 559 blanks, all 4870 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         79 |      3,900 |        362 |        558 |      4,820 |
+| JSON       |          1 |         49 |          0 |          1 |         50 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                       | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                          |         80 |      3,949 |        362 |        559 |      4,870 |
+| . (Files)                                                                                                  |          1 |         49 |          0 |          1 |         50 |
+| src                                                                                                        |         79 |      3,900 |        362 |        558 |      4,820 |
+| src\application                                                                                            |         33 |      1,155 |        242 |        201 |      1,598 |
+| src\application (Files)                                                                                    |          2 |         37 |          6 |         14 |         57 |
+| src\application\api                                                                                        |         28 |        942 |        213 |        156 |      1,311 |
+| src\application\api (Files)                                                                                |          1 |         48 |         17 |         15 |         80 |
+| src\application\api\controllers                                                                            |         12 |        676 |        103 |         76 |        855 |
+| src\application\api\controllers\farmacia                                                                   |          7 |        427 |         73 |         47 |        547 |
+| src\application\api\controllers\system                                                                     |          5 |        249 |         30 |         29 |        308 |
+| src\application\api\middlewares                                                                            |          1 |         36 |          0 |          6 |         42 |
+| src\application\api\routes                                                                                 |         14 |        182 |         93 |         59 |        334 |
+| src\application\api\routes (Files)                                                                         |          1 |          7 |         58 |         17 |         82 |
+| src\application\api\routes\farmacia                                                                        |          8 |        110 |         24 |         26 |        160 |
+| src\application\api\routes\system                                                                          |          5 |         65 |         11 |         16 |         92 |
+| src\application\lib                                                                                        |          3 |        176 |         23 |         31 |        230 |
+| src\common                                                                                                 |          9 |         62 |          0 |         19 |         81 |
+| src\common (Files)                                                                                         |          1 |          2 |          0 |          2 |          4 |
+| src\common\config                                                                                          |          6 |         40 |          0 |         11 |         51 |
+| src\common\lib                                                                                             |          2 |         20 |          0 |          6 |         26 |
+| src\domain                                                                                                 |         17 |      1,562 |         98 |        171 |      1,831 |
+| src\domain (Files)                                                                                         |          3 |         40 |         11 |         14 |         65 |
+| src\domain\lib                                                                                             |          3 |        182 |          6 |         35 |        223 |
+| src\domain\services                                                                                        |         11 |      1,340 |         81 |        122 |      1,543 |
+| src\domain\services\farmacia                                                                               |          7 |        793 |         53 |         67 |        913 |
+| src\domain\services\system                                                                                 |          4 |        547 |         28 |         55 |        630 |
+| src\infrastructure                                                                                         |         20 |      1,121 |         22 |        167 |      1,310 |
+| src\infrastructure (Files)                                                                                 |          3 |        162 |          5 |         33 |        200 |
+| src\infrastructure\lib                                                                                     |          3 |        325 |          5 |         38 |        368 |
+| src\infrastructure\model                                                                                   |         12 |        482 |         12 |         72 |        566 |
+| src\infrastructure\model\farmacia                                                                          |          8 |        313 |          8 |         48 |        369 |
+| src\infrastructure\model\system                                                                            |          4 |        169 |          4 |         24 |        197 |
+| src\infrastructure\repositories                                                                            |          2 |        152 |          0 |         24 |        176 |
+| src\infrastructure\repositories (Files)                                                                    |          1 |        144 |          0 |         20 |        164 |
+| src\infrastructure\repositories\system                                                                     |          1 |          8 |          0 |          4 |         12 |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                   | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| e:\proyecto_renacer2024\backend_renacer\package.json                                                       | JSON       |         49 |          0 |          1 |         50 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\farmacia\CategoriaController.js    | JavaScript |         70 |          9 |          7 |         86 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\farmacia\ComprasController.js      | JavaScript |         56 |          6 |          6 |         68 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\farmacia\NombreController.js       | JavaScript |         56 |          6 |          6 |         68 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\farmacia\PresentacionController.js | JavaScript |         67 |          7 |          7 |         81 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\farmacia\ProductoController.js     | JavaScript |         80 |          8 |          8 |         96 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\farmacia\ProveedorController.js    | JavaScript |         67 |          7 |          7 |         81 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\farmacia\VentasController.js       | JavaScript |         31 |         30 |          6 |         67 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\system\MenuController.js           | JavaScript |         55 |          6 |          6 |         67 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\system\OtroController.js           | JavaScript |         19 |          3 |          4 |         26 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\system\ReportesController.js       | JavaScript |         39 |          6 |          5 |         50 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\system\RolesController.js          | JavaScript |         68 |          7 |          7 |         82 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\controllers\system\UsuarioController.js        | JavaScript |         68 |          8 |          7 |         83 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\index.js                                       | JavaScript |         48 |         17 |         15 |         80 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\middlewares\AuthMiddleware.js                  | JavaScript |         36 |          0 |          6 |         42 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\farmacia\CategoriaRoute.js              | JavaScript |         16 |          3 |          3 |         22 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\farmacia\ComprasRoute.js                | JavaScript |         13 |          3 |          3 |         19 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\farmacia\NombreRoute.js                 | JavaScript |         13 |          3 |          3 |         19 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\farmacia\PresentacionRoute.js           | JavaScript |         15 |          3 |          3 |         21 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\farmacia\ProductoRoute.js               | JavaScript |         15 |          4 |          4 |         23 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\farmacia\ProveedorRoute.js              | JavaScript |         15 |          3 |          3 |         21 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\farmacia\VentasRoute.js                 | JavaScript |          6 |          5 |          3 |         14 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\farmacia\index.js                       | JavaScript |         17 |          0 |          4 |         21 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\index.js                                | JavaScript |          7 |         58 |         17 |         82 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\system\MenuRoute.js                     | JavaScript |         13 |          3 |          3 |         19 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\system\ReportesRoute.js                 | JavaScript |         11 |          2 |          3 |         16 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\system\RolesRoute.js                    | JavaScript |         15 |          3 |          3 |         21 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\system\UsuarioRoute.js                  | JavaScript |         15 |          3 |          3 |         21 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\api\routes\system\index.js                         | JavaScript |         11 |          0 |          4 |         15 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\index.js                                           | JavaScript |         13 |          6 |          5 |         24 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\lib\global.js                                      | JavaScript |         16 |          0 |          1 |         17 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\lib\respuesta.js                                   | JavaScript |         11 |          0 |          2 |         13 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\lib\util.js                                        | JavaScript |        149 |         23 |         28 |        200 |
+| e:\proyecto_renacer2024\backend_renacer\src\application\server.js                                          | JavaScript |         24 |          0 |          9 |         33 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\config\app.js                                           | JavaScript |          2 |          0 |          2 |          4 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\config\auth.js                                          | JavaScript |          6 |          0 |          2 |          8 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\config\constants.js                                     | JavaScript |          2 |          0 |          2 |          4 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\config\db.js                                            | JavaScript |         10 |          0 |          2 |         12 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\config\index.js                                         | JavaScript |          5 |          0 |          2 |          7 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\config\mail.js                                          | JavaScript |         15 |          0 |          1 |         16 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\index.js                                                | JavaScript |          2 |          0 |          2 |          4 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\lib\array.js                                            | JavaScript |          9 |          0 |          2 |         11 |
+| e:\proyecto_renacer2024\backend_renacer\src\common\lib\errors.js                                           | JavaScript |         11 |          0 |          4 |         15 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\index.js                                                | JavaScript |         12 |         11 |          7 |         30 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\init.js                                                 | JavaScript |         20 |          0 |          3 |         23 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\lib\error.js                                            | JavaScript |         17 |          0 |          2 |         19 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\lib\reponse.js                                          | JavaScript |         38 |          1 |          8 |         47 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\lib\util.js                                             | JavaScript |        127 |          5 |         25 |        157 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\farmacia\CategoriaService.js                   | JavaScript |         79 |          7 |          9 |         95 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\farmacia\ComprasService.js                     | JavaScript |        145 |          5 |         10 |        160 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\farmacia\NombreService.js                      | JavaScript |         92 |          5 |          9 |        106 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\farmacia\PresentacionService.js                | JavaScript |         70 |          4 |          9 |         83 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\farmacia\ProductoService.js                    | JavaScript |        183 |          7 |         12 |        202 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\farmacia\ProveedorService.js                   | JavaScript |         70 |          4 |          9 |         83 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\farmacia\VentasService.js                      | JavaScript |        154 |         21 |          9 |        184 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\system\MenuService.js                          | JavaScript |         62 |          5 |         10 |         77 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\system\ReportesService.js                      | JavaScript |        184 |         13 |         12 |        209 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\system\RolesService.js                         | JavaScript |        110 |          5 |         15 |        130 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\services\system\UsuarioService.js                       | JavaScript |        191 |          5 |         18 |        214 |
+| e:\proyecto_renacer2024\backend_renacer\src\domain\setup.js                                                | JavaScript |          8 |          0 |          4 |         12 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\associations.js                                 | JavaScript |         85 |          0 |         12 |         97 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\index.js                                        | JavaScript |         50 |          4 |         11 |         65 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\lib\config-seeders.js                           | JavaScript |         42 |          1 |          3 |         46 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\lib\transaction.js                              | JavaScript |         23 |          0 |          5 |         28 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\lib\util.js                                     | JavaScript |        260 |          4 |         30 |        294 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\farmacia\categoria.js                     | JavaScript |         28 |          1 |          6 |         35 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\farmacia\compras.js                       | JavaScript |         63 |          1 |          6 |         70 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\farmacia\nombreProducto.js                | JavaScript |         46 |          1 |          6 |         53 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\farmacia\pedidoProducto.js                | JavaScript |         32 |          1 |          6 |         39 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\farmacia\pedidos.js                       | JavaScript |         36 |          1 |          6 |         43 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\farmacia\presentacion.js                  | JavaScript |         28 |          1 |          6 |         35 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\farmacia\producto.js                      | JavaScript |         44 |          1 |          6 |         51 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\farmacia\proveedor.js                     | JavaScript |         36 |          1 |          6 |         43 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\system\menu.js                            | JavaScript |         36 |          1 |          6 |         43 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\system\rol.js                             | JavaScript |         28 |          1 |          6 |         35 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\system\rolMenu.js                         | JavaScript |         24 |          1 |          6 |         31 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\model\system\usuario.js                         | JavaScript |         81 |          1 |          6 |         88 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\repositories\Repository.js                      | JavaScript |        144 |          0 |         20 |        164 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\repositories\system\UsuarioRepository.js        | JavaScript |          8 |          0 |          4 |         12 |
+| e:\proyecto_renacer2024\backend_renacer\src\infrastructure\setup.js                                        | JavaScript |         27 |          1 |         10 |         38 |
+| Total                                                                                                      |            |      3,949 |        362 |        559 |      4,870 |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
