@@ -6,15 +6,16 @@ import {
   buscar,
   eliminar,
 } from "../../controllers/farmacia/ProveedorController.js";
+import { verificarToken } from "../../middlewares/AuthMiddleware.js";
 
 const router = express.Router();
 // const { UsuarioController } = controllers;
 // const { AuthMiddleware } = middlewares;
 // console.log("API", api);
-router.post("/", crear);
-router.get("/", mostrar);
-router.put("/:id", modificar);
+router.post("/", verificarToken, crear);
+router.get("/", verificarToken, mostrar);
+router.put("/:id", verificarToken, modificar);
 router.get("/:id", buscar);
-router.delete("/:id", eliminar);
+router.delete("/:id", verificarToken, eliminar);
 
 export default router;

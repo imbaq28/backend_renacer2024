@@ -192,6 +192,7 @@ async function convertPDF(
 
 async function generarFacturaService(id) {
   try {
+    let respuesta;
     const pedidoAntes = await Pedidos.findOne({
       include: [
         {
@@ -253,7 +254,12 @@ async function generarFacturaService(id) {
     if (!pedido) throw new Error("El pedido no existe");
     const pdfFolder = path.resolve(app.rootPath, "./pdf");
     fs.existsSync(pdfFolder) || fs.mkdirSync(pdfFolder);
-    console.log(path.resolve(pdfFolder, `${id}.pdf`));
+
+    const outPath = path.resolve(pdfFolder, `${id}.pdf`);
+    if (fs.existsSync(outPath)) {
+      respuesta = fs.readFileSync(outPath, "base64");
+      return respuesta;
+    }
 
     const ubicacionImagen = path.resolve("public/image/ren.jpg");
     let imagen = fs.readFileSync(ubicacionImagen, "base64");
@@ -266,9 +272,10 @@ async function generarFacturaService(id) {
         imagen,
       }
     );
-    await convertPDF(html, path.resolve(pdfFolder, `${id}.pdf`));
+    await convertPDF(html, outPath);
 
-    return pedido;
+    respuesta = fs.readFileSync(outPath, "base64");
+    return respuesta;
   } catch (error) {
     throw new ErrorApp(error.message, 400);
   }

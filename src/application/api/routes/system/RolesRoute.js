@@ -6,15 +6,16 @@ import {
   modificar,
   agregarMenu,
 } from "../../controllers/system/RolesController.js";
+import { verificarToken } from "../../middlewares/AuthMiddleware.js";
 
 const router = express.Router();
 // const { UsuarioController } = controllers;
 // const { AuthMiddleware } = middlewares;
 // console.log("API", api);
-router.post("/", crear);
-router.get("/", mostrar);
-router.put("/:id", modificar);
-router.delete("/:id", eliminar);
-router.post("/:id/agregar-menu", agregarMenu);
+router.post("/", verificarToken, crear);
+router.get("/", verificarToken, mostrar);
+router.put("/:id", verificarToken, modificar);
+router.delete("/:id", verificarToken, eliminar);
+router.post("/:id/agregar-menu", verificarToken, agregarMenu);
 
 export default router;

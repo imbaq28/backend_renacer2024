@@ -5,6 +5,7 @@ import {
   mostrarUsuario,
   eliminarUsuario,
   modificarUsuario,
+  cambiarContrasenaUsuario,
   loginUsuario,
 } from "../../../../domain/services/system/UsuarioService.js";
 
@@ -12,6 +13,7 @@ async function crear(req, res) {
   try {
     const data = req.body;
     delete data.id;
+    data.userCreated = req.user.id;
     // data.userCreated = req.user.idUsuario;
     const respuesta = await crearUsuario(data);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
@@ -40,6 +42,7 @@ async function modificar(req, res) {
   try {
     const datos = req.body;
     datos.id = req.params.id;
+    datos.userUpdated = req.user.id;
     // data.userCreated = req.user.idUsuario;
     const respuesta = await modificarUsuario(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
@@ -52,11 +55,26 @@ async function modificar(req, res) {
 
 async function eliminar(req, res) {
   try {
-    const id = req.params.id;
-    console.log("id", id);
+    const data = {};
+    data.id = req.params.id;
+    data.userDeleted = req.user.id;
     // const data = req.body;
     // data.userCreated = req.user.idUsuario;
-    const respuesta = await eliminarUsuario(id);
+    const respuesta = await eliminarUsuario(data);
+    return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
+  } catch (error) {
+    return res
+      .status(error.httpCode || HttpCodes.userError)
+      .json(new Respuesta(error.message, Finalizado.FAIL));
+  }
+}
+
+async function cambiarContrasena(req, res) {
+  try {
+    const datos = req.body;
+    datos.userUpdated = req.user.id;
+    // data.userCreated = req.user.idUsuario;
+    const respuesta = await cambiarContrasenaUsuario(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -79,4 +97,4 @@ async function login(req, res) {
   }
 }
 
-export { crear, mostrar, eliminar, modificar, login };
+export { crear, mostrar, eliminar, modificar, login, cambiarContrasena };

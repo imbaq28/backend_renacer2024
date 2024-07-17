@@ -60,18 +60,10 @@ async function modificarNombre(datos) {
       imagen,
       estado,
     } = datos;
-    const cat = await Nombre.update(
-      {
-        nombre,
-        idPresentacion,
-        idCategoria,
-        nombreQuimico,
-        descripcion,
-        imagen,
-        estado,
-      },
-      { where: { id: datos.id }, returning: true }
-    );
+    const cat = await Nombre.update(datos, {
+      where: { id: datos.id },
+      returning: true,
+    });
     console.log("cat", cat[0]);
     if (cat[0] === 1) {
       return cat[1][0];
@@ -84,15 +76,18 @@ async function modificarNombre(datos) {
   }
 }
 
-async function eliminarNombre(id) {
+async function eliminarNombre(data) {
   try {
+    data.deletedAt = new Date();
     const cat = await Nombre.findOne({
       where: {
-        id,
+        id: data.id,
       },
     });
     if (cat) {
-      await Nombre.destroy({ where: { id } });
+      await Nombre.update(data, {
+        where: { id: data.id },
+      });
       return "Borrado";
     } else {
       throw new Error("El nombre no existe");

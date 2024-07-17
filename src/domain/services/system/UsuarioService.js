@@ -78,6 +78,7 @@ async function mostrarUsuario(data) {
 async function modificarUsuario(datos) {
   try {
     console.log(datos);
+    delete datos.contrasena;
     const {
       tipoDocumento,
       numeroDocumento,
@@ -91,26 +92,16 @@ async function modificarUsuario(datos) {
       estado,
     } = datos;
     let newFechaNacimiento;
-    if (fechaNacimiento) {
-      newFechaNacimiento = moment(fechaNacimiento, "DD/MM/YYYY").format(
-        "YYYY-MM-DD"
-      );
+    if (datos.fechaNacimiento) {
+      datos.fechaNacimiento = moment(
+        datos.fechaNacimiento,
+        "DD/MM/YYYY"
+      ).format("YYYY-MM-DD");
     }
-    const cat = await Usuario.update(
-      {
-        tipoDocumento,
-        numeroDocumento,
-        fechaNacimiento: newFechaNacimiento,
-        nombres,
-        primerApellido,
-        segundoApellido,
-        telefono,
-        celular,
-        correoElectronico,
-        estado,
-      },
-      { where: { id: datos.id }, returning: true }
-    );
+    const cat = await Usuario.update(datos, {
+      where: { id: datos.id },
+      returning: true,
+    });
     console.log("cat", cat[0]);
     if (cat[0] === 1) {
       return cat[1][0];
@@ -123,15 +114,47 @@ async function modificarUsuario(datos) {
   }
 }
 
-async function eliminarUsuario(id) {
+async function cambiarContrasenaUsuario(datos) {
   try {
+    const usuarioBuscar = await Usuario.findOne({
+      where: { id: datos.userUpdated },
+    });
+    if (!usuarioBuscar) throw new Error("El Usuario no existe");
+    const usuario = usuarioBuscar.toJSON();
+
+    const verificar = await verificarContrasena(
+      datos.contrasenaAntigua,
+      usuario.contrasena
+    );
+    if (!verificar) throw new Error("Error en la contraseña usuario");
+    const contrasena = await codificarContrasena(datos.contrasenaNueva);
+
+    const usuarioCambiado = await Usuario.update(
+      { contrasena },
+      {
+        where: { id: datos.userUpdated },
+        returning: true,
+      }
+    );
+
+    return "Contraseña cambiada exitosamente";
+  } catch (error) {
+    throw new ErrorApp(error.message, 400);
+  }
+}
+
+async function eliminarUsuario(data) {
+  try {
+    data.deletedAt = new Date();
     const cat = await Usuario.findOne({
       where: {
-        id,
+        id: data.id,
       },
     });
     if (cat) {
-      await Usuario.destroy({ where: { id } });
+      await Usuario.update(data, {
+        where: { id: data.id },
+      });
       return "Borrado";
     } else {
       throw new Error("El Usuario no existe");
@@ -210,4 +233,5 @@ export {
   eliminarUsuario,
   modificarUsuario,
   loginUsuario,
+  cambiarContrasenaUsuario,
 };

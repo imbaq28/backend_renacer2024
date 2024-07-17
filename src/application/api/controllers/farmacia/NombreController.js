@@ -11,6 +11,7 @@ async function crear(req, res) {
   try {
     const data = req.body;
     delete data.id;
+    data.userCreated = req.user.id;
     // data.userCreated = req.user.idUsuario;
     delete data.id;
     const respuesta = await crearNombre(data);
@@ -39,6 +40,7 @@ async function modificar(req, res) {
   try {
     const datos = req.body;
     datos.id = req.params.id;
+    datos.userUpdated = req.user.id;
     // data.userCreated = req.user.idUsuario;
     const respuesta = await modificarNombre(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
@@ -51,11 +53,12 @@ async function modificar(req, res) {
 
 async function eliminar(req, res) {
   try {
-    const id = req.params.id;
-    console.log("id", id);
+    const data = {};
+    data.id = req.params.id;
+    data.userDeleted = req.user.id;
     // const data = req.body;
     // data.userCreated = req.user.idUsuario;
-    const respuesta = await eliminarNombre(id);
+    const respuesta = await eliminarNombre(data);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res

@@ -7,15 +7,16 @@ import {
   buscar,
   eliminar,
 } from "../../controllers/farmacia/ProductoController.js";
+import { verificarToken } from "../../middlewares/AuthMiddleware.js";
 
 const router = express.Router();
 // const { UsuarioController } = controllers;
 // const { AuthMiddleware } = middlewares;
 
 // router.post("/", crear);
-router.get("/", mostrar);
-router.put("/:id", modificar);
-router.put("/:id/stock", modificarStock);
+router.get("/", verificarToken, mostrar);
+router.put("/:id", verificarToken, modificar);
+router.put("/:id/stock", verificarToken, modificarStock);
 router.get("/:id", buscar);
 // router.delete("/:id", eliminar);
 

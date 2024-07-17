@@ -40,10 +40,10 @@ async function buscarPresentacion(id) {
 async function modificarPresentacion(datos) {
   try {
     const { nombre, detalle, estado } = datos;
-    const presentac = await Presentacion.update(
-      { nombre: nombre, detalle: detalle, estado: estado },
-      { where: { id: datos.id }, returning: true }
-    );
+    const presentac = await Presentacion.update(datos, {
+      where: { id: datos.id },
+      returning: true,
+    });
     if (presentac[0] === 1) {
       return presentac[1][0];
     } else {
@@ -55,15 +55,18 @@ async function modificarPresentacion(datos) {
   }
 }
 
-async function eliminarPresentacion(id) {
+async function eliminarPresentacion(data) {
   try {
+    data.deletedAt = new Date();
     const presentac = await Presentacion.findOne({
       where: {
-        id,
+        id: data.id,
       },
     });
     if (presentac) {
-      await Presentacion.destroy({ where: { id } });
+      await Presentacion.update(data, {
+        where: { id: data.id },
+      });
       return "Borrado";
     } else {
       throw new Error("La presentacion no existe");

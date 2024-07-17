@@ -17,11 +17,11 @@ console.log("Roles", Roles);
 
 async function crearRoles(data) {
   try {
-    data.fechaNacimiento = moment(
-      data.fechaNacimiento || new Date(),
-      "DD/MM/YYYY"
-    ).format("YYYY-MM-DD");
-    console.log(data.fechaNacimiento);
+    // data.fechaNacimiento = moment(
+    //   data.fechaNacimiento || new Date(),
+    //   "DD/MM/YYYY"
+    // ).format("YYYY-MM-DD");
+    // console.log(data.fechaNacimiento);
     const rol = await Roles.create(data);
     // return RolesRepository.deleteItem(id);db, config);
     return rol;
@@ -56,14 +56,10 @@ async function modificarRoles(datos) {
     console.log(datos);
     const { nombre, descripcion, estado } = datos;
 
-    const rol = await Roles.update(
-      {
-        nombre,
-        descripcion,
-        estado,
-      },
-      { where: { id: datos.id }, returning: true }
-    );
+    const rol = await Roles.update(datos, {
+      where: { id: datos.id },
+      returning: true,
+    });
     console.log("rol", rol[0]);
     if (rol[0] === 1) {
       return rol[1][0];
@@ -76,15 +72,18 @@ async function modificarRoles(datos) {
   }
 }
 
-async function eliminarRoles(id) {
+async function eliminarRoles(data) {
   try {
+    data.deletedAt = new Date();
     const cat = await Roles.findOne({
       where: {
-        id,
+        id: data.id,
       },
     });
     if (cat) {
-      await Roles.destroy({ where: { id } });
+      await Roles.update(data, {
+        where: { id: data.id },
+      });
       return "Borrado";
     } else {
       throw new Error("El Roles no existe");
@@ -96,7 +95,7 @@ async function eliminarRoles(id) {
 
 async function agregarMenuRol(datos) {
   try {
-    const { data, id } = datos;
+    const { data, id, valores } = datos;
     const roles = await Roles.findOne({ where: { id: id } });
     if (!roles) throw new Error("El Rol no existe");
 
@@ -105,11 +104,24 @@ async function agregarMenuRol(datos) {
 
     if (menuJson.length > 0) {
       for (const men of menuJson) {
-        await RolMenu.destroy({ where: { id: men.id } });
+        // await RolMenu.destroy({ where: { id: men.id } });
+        await RolMenu.update(
+          {
+            userDeleted: valores.userCreated,
+            deletedAt: valores.deletedAt,
+          },
+          {
+            where: { id: men.id },
+          }
+        );
       }
     }
     for (const menuRol of data) {
-      await RolMenu.create({ idRol: id, idMenu: menuRol });
+      await RolMenu.create({
+        idRol: id,
+        idMenu: menuRol,
+        userCreated: valores.userCreated,
+      });
     }
 
     const rolMenu = await RolMenu.findAll({ where: { idRol: id } });

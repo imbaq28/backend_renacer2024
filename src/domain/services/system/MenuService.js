@@ -39,13 +39,13 @@ async function modificarMenu(datos) {
     console.log(datos);
     const { nombre, descripcion, estado } = datos;
 
-    const rol = await Menu.update(datos, {
+    const menu = await Menu.update(datos, {
       where: { id: datos.id },
       returning: true,
     });
-    console.log("rol", rol[0]);
-    if (rol[0] === 1) {
-      return rol[1][0];
+    console.log("menu", menu[0]);
+    if (menu[0] === 1) {
+      return menu[1][0];
     } else {
       throw new Error("No se pudo actualizar");
     }
@@ -55,15 +55,18 @@ async function modificarMenu(datos) {
   }
 }
 
-async function eliminarMenu(id) {
+async function eliminarMenu(data) {
   try {
-    const cat = await Menu.findOne({
+    data.deletedAt = new Date();
+    const menu = await Menu.findOne({
       where: {
-        id,
+        id: data.id,
       },
     });
-    if (cat) {
-      await Menu.destroy({ where: { id } });
+    if (menu) {
+      await Menu.update(data, {
+        where: { id: data.id },
+      });
       return "Borrado";
     } else {
       throw new Error("El Menu no existe");

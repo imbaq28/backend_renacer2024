@@ -12,6 +12,7 @@ async function crear(req, res) {
   try {
     const data = req.body;
     delete data.id;
+    data.userCreated = req.user.id;
     // data.userCreated = req.user.idRoles;
     const respuesta = await crearRoles(data);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
@@ -39,6 +40,7 @@ async function modificar(req, res) {
   try {
     const datos = req.body;
     datos.id = req.params.id;
+    datos.userUpdated = req.user.id;
     // data.userCreated = req.user.idRoles;
     const respuesta = await modificarRoles(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
@@ -51,11 +53,12 @@ async function modificar(req, res) {
 
 async function eliminar(req, res) {
   try {
-    const id = req.params.id;
-    console.log("id", id);
+    const data = {};
+    data.id = req.params.id;
+    data.userDeleted = req.user.id;
     // const data = req.body;
     // data.userCreated = req.user.idRoles;
-    const respuesta = await eliminarRoles(id);
+    const respuesta = await eliminarRoles(data);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res
@@ -68,8 +71,10 @@ async function agregarMenu(req, res) {
   try {
     const id = req.params.id;
     const data = req.body;
-    // data.userCreated = req.user.idRoles;
-    const respuesta = await agregarMenuRol({ id, data });
+    const valores = {};
+    valores.userCreated = req.user.id;
+    valores.deletedAt = new Date();
+    const respuesta = await agregarMenuRol({ id, data, valores });
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
   } catch (error) {
     return res

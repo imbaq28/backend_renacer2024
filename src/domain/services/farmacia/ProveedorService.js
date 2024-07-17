@@ -40,10 +40,10 @@ async function buscarProveedor(id) {
 async function modificarProveedor(datos) {
   try {
     const { nombre, direccion, telefono, nit, estado } = datos;
-    const proveed = await Proveedor.update(
-      { nombre, direccion, telefono, nit, estado },
-      { where: { id: datos.id }, returning: true }
-    );
+    const proveed = await Proveedor.update(datos, {
+      where: { id: datos.id },
+      returning: true,
+    });
     if (proveed[0] === 1) {
       return proveed[1][0];
     } else {
@@ -55,15 +55,18 @@ async function modificarProveedor(datos) {
   }
 }
 
-async function eliminarProveedor(id) {
+async function eliminarProveedor(data) {
   try {
+    data.deletedAt = new Date();
     const proveed = await Proveedor.findOne({
       where: {
-        id,
+        id: data.id,
       },
     });
     if (proveed) {
-      await Proveedor.destroy({ where: { id } });
+      await Proveedor.update(data, {
+        where: { id: data.id },
+      });
       return "Borrado";
     } else {
       throw new Error("El proveedor no existe");

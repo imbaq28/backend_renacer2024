@@ -25,6 +25,7 @@ async function crear(req, res) {
 
 async function mostrar(req, res) {
   try {
+    console.log("here");
     // const data = req.body;
     // data.userCreated = req.user.idUsuario;
     const respuesta = await mostrarProducto();
@@ -53,6 +54,7 @@ async function modificar(req, res) {
   try {
     const datos = req.body;
     datos.id = req.params.id;
+    datos.userUpdated = req.user.id;
     // data.userCreated = req.user.idUsuario;
     const respuesta = await modificarProducto(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));
@@ -67,6 +69,7 @@ async function modificarStock(req, res) {
   try {
     const datos = req.body;
     datos.id = req.params.id;
+    datos.userUpdated = req.user.id;
     // data.userCreated = req.user.idUsuario;
     const respuesta = await modificarProductoStock(datos);
     return res.status(200).send(new Respuesta("OK", Finalizado.OK, respuesta));

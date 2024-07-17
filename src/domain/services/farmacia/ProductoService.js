@@ -117,9 +117,10 @@ async function buscarProducto(id) {
 async function modificarProducto(datos) {
   try {
     console.log(datos);
-    const { precioVenta, precioUnitario, cantidadMinima, estado } = datos;
+    const { precioVenta, precioUnitario, cantidadMinima, estado, userUpdated } =
+      datos;
     const cat = await Producto.update(
-      { precioVenta, precioUnitario, cantidadMinima, estado },
+      { precioVenta, precioUnitario, cantidadMinima, estado, userUpdated },
       {
         where: { id: datos.id },
         include: [
@@ -156,9 +157,9 @@ async function modificarProducto(datos) {
 async function modificarProductoStock(datos) {
   try {
     console.log(datos);
-    const { stock } = datos;
+    const { stock, userUpdated } = datos;
     const cat = await Producto.update(
-      { stock },
+      { stock, userUpdated },
       { where: { id: datos.id }, returning: true }
     );
     console.log("cat", cat[0]);
